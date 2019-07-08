@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html class="translated-ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+</head>
+<body id="Body">
+<title>校园朋友圈</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="__PUBLIC__/index/css/reset.css">
+<link rel="stylesheet" href="__PUBLIC__/index/css/yiqi.css">
+<link rel="stylesheet" href="__PUBLIC__/index/css/main.css">
+<link rel="stylesheet" href="__PUBLIC__/index/css/translateelement.css">
+<link rel="stylesheet" href="__PUBLIC__/weui/dist/style/weui.css">
+<link rel="stylesheet" href="__PUBLIC__/layer_mobile/need/layer.css">
+
+<script type="text/javascript" src="__PUBLIC__/index/js/jQuery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/index/js/yiqi.js"></script>
+<script type="text/javascript" src="__PUBLIC__/layer_mobile/layer.js"></script>
+
+<div id="box">
+    <div id="dingwei">
+        <div class="pengyou-head">
+            <a href="#" onclick="javaScript:history.back(-1);"><div class="pengyou-head-left"><img src="__PUBLIC__/index/img/left3.png"></div></a>
+        </div>
+        <if condition="$info['background'] eq null">
+        <div class="pengyou-headimg" style="background-image:url(__PUBLIC__/index/img/bg.jpg);background-repeat:no-repeat;background-size:100% 86%;">
+            <div class="pengyou-usergl-touxiang">
+                <div class="pengyou-touxiang-img">
+                    <img src="__PUBLIC__/index/img/pengyouquan.jpg">
+                </div>
+            </div>
+        </div>
+        <else />
+        <div class="pengyou-headimg" style="background-image:url({$info['background']});background-repeat:no-repeat;background-size:100% 86%;">
+            <div class="pengyou-usergl-touxiang">
+                <div class="pengyou-touxiang-img">
+                    <if condition="$info['avatar'] eq null">
+                        <img src="__PUBLIC__/index/img/pengyouquan.jpg">
+                        <else />
+                        <img src="{$info['avatar']}">
+                    </if>
+                </div>
+            </div>
+        </div>
+        </if>
+
+        <!--表单-->
+        <div class="container">
+            <div class="page navbar js_show">
+                <div class="page__bd">
+                    <div class="weui-cells__title">个人资料</div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" id="username" value="{$info['username']}" disabled placeholder="请输入用户名" />
+                            </div>
+                        </div>
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">注册时间</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" value="{$info['addtime']|date='Y-m-d H:i:s',###}" disabled placeholder="注册时间" />
+                            </div>
+                        </div>
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">昵称</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" id="nickname" value="{$info['nickname']}" placeholder="请输入昵称" />
+                            </div>
+                        </div>
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">QQ</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" id="qq" value="{$info['qq']}" pattern="[0-9]*" placeholder="QQ号" />
+                            </div>
+                        </div>
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">邮箱</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="email" id="mail" value="{$info['mail']}" placeholder="邮箱" />
+                            </div>
+                        </div>
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">年龄</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" id="age" value="{$info['age']}" pattern="[0-9]*" placeholder="年龄" />
+                            </div>
+                        </div>
+
+                        <div class="weui-cell weui-cell_vcode">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">手机号</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="tel" id="phone" value="{$info['phone']}" placeholder="请输入手机号" />
+                            </div>
+                            <div class="weui-cell__ft">
+                                <button class="weui-vcode-btn">获取验证码</button>
+                            </div>
+                        </div>
+
+                        <!--<div class="weui-cell">-->
+                            <!--<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<input class="weui-input" type="number" id="yanzhengma" pattern="[0-9]*" placeholder="手机验证码" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+            <!--            <div class="weui-cell">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">出生日期</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="date" value="" />
+                            </div>
+                        </div>-->
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">性别</label></div>
+                            <div class="weui-cell__bd">
+                                <div class="weui-cells weui-cells_radio">
+                                    <label class="weui-cell weui-check__label" for="x11">
+                                        <div class="weui-cell__bd">
+                                            <p>男</p>
+                                        </div>
+                                        <div class="weui-cell__ft">
+                                            <input type="radio" class="weui-check" name="gender" id="x11" <if condition="$info['gender'] eq 1">checked</if> />
+                                            <span class="weui-icon-checked"></span>
+                                        </div>
+                                    </label>
+                                    <label class="weui-cell weui-check__label" for="x12">
+                                        <div class="weui-cell__bd">
+                                            <p>女</p>
+                                        </div>
+                                        <div class="weui-cell__ft">
+                                            <input type="radio" name="gender" class="weui-check" id="x12" <if condition="$info['gender'] eq 2">checked</if> />
+                                            <span class="weui-icon-checked"></span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="weui-cell">-->
+                            <!--<div class="weui-cell__hd"><label class="weui-label">爱好</label></div>-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<div class="weui-cells weui-cells_checkbox">-->
+                                    <!--<label class="weui-cell weui-check__label" for="s11">-->
+                                        <!--<div class="weui-cell__hd">-->
+                                            <!--<input type="checkbox" class="weui-check" name="checkbox1" id="s11" checked="checked" />-->
+                                            <!--<i class="weui-icon-checked"></i>-->
+                                        <!--</div>-->
+                                        <!--<div class="weui-cell__bd">-->
+                                            <!--<p>篮球</p>-->
+                                        <!--</div>-->
+                                    <!--</label>-->
+                                    <!--<label class="weui-cell weui-check__label" for="s12">-->
+                                        <!--<div class="weui-cell__hd">-->
+                                            <!--<input type="checkbox" name="checkbox1" class="weui-check" id="s12" />-->
+                                            <!--<i class="weui-icon-checked"></i>-->
+                                        <!--</div>-->
+                                        <!--<div class="weui-cell__bd">-->
+                                            <!--<p>足球</p>-->
+                                        <!--</div>-->
+                                    <!--</label>-->
+                                    <!--<label class="weui-cell weui-check__label" for="s13">-->
+                                        <!--<div class="weui-cell__hd">-->
+                                            <!--<input type="checkbox" name="checkbox1" class="weui-check" id="s13" />-->
+                                            <!--<i class="weui-icon-checked"></i>-->
+                                        <!--</div>-->
+                                        <!--<div class="weui-cell__bd">-->
+                                            <!--<p>游泳</p>-->
+                                        <!--</div>-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="weui-cell weui-cell_select">-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<select class="weui-select" name="select1">-->
+                                    <!--<option selected="" value="1">微信号</option>-->
+                                    <!--<option value="2">QQ号</option>-->
+                                    <!--<option value="3">Email</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="weui-cell weui-cell_vcode">-->
+                            <!--<div class="weui-cell__hd"><label class="weui-label">验证码</label></div>-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<input class="weui-input" type="text" placeholder="请输入验证码" />-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__ft">-->
+                                <!--<img class="weui-vcode-img" src="__PUBLIC__/weui/dist/example/images/vcode.jpg" />-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="weui-btn-area">
+                        <a class="weui-btn weui-btn_primary" href="javascript:" onclick="submit()">提交</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/index/js/pengyou.js"></script>
+<script>
+    function submit()
+    {
+        layer.open({
+            type: 2
+            ,content: '加载中'
+            ,time: 1
+        });
+        var nickname = $('#nickname').val();
+        var qq = $('#qq').val();
+        var mail = $('#mail').val();
+        var phone = $('#phone').val();
+        if($("[name='gender']").get(0).checked){
+            var gender = 1;
+        }else{
+            var gender = 2;
+        }
+        var age = $('#age').val();
+
+        $.post("{:U('Home/User/userinfo')}", { nickname:nickname,qq:qq,mail:mail,phone:phone,gender:gender,age:age},
+            function (data){
+                //关闭加载层
+                layer.closeAll('loading');
+                if(data.code != 200){
+                    layer.open({
+                        content: data.msg
+                        ,btn: '我知道了'
+                    });
+                }else{
+                    layer.open({
+                        content: '操作成功'
+                        ,skin: 'msg'
+                        ,time: 1 //2秒后自动关闭
+                        ,end:function(){
+                            window.location.reload();
+                        }
+                    })
+                }
+            }, "json");
+
+    }
+</script>
+</body>
+</html>

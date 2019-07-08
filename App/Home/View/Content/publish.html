@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://localhost/py/shuoshuo.php -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>记录时刻</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="__PUBLIC__/index/css/reset.css">
+    <link rel="stylesheet" href="__PUBLIC__/index/css/yiqi.css">
+    <link rel="stylesheet" href="__PUBLIC__/index/css/main.css">
+    <link rel="stylesheet" href="__PUBLIC__/layer_mobile/need/layer.css">
+    <script type="text/javascript" src="__PUBLIC__/index/js/jQuery.min.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/index/js/yiqi.js"></script></head>
+    <script type="text/javascript" src="__PUBLIC__/layer_mobile/layer.js"></script>
+<body>
+<form action="{:U('Home/Content/publish')}" method="post" enctype="multipart/form-data">
+    <div id="box">
+        <div id="dingwei">
+            <div class="pengyou-ss-head">
+                <a href="#" onclick="javaScript:history.back(-1);"><div class="pengyou-ss-head-left"><span>取消</span></div></a>
+                <div class="pengyou-ss-head-right"><button type="button" class="fabu" onclick="fabu()">发布</button></div>
+            </div>
+            <div class="pengyou-ss-dingwei">
+                <div class="pengyou-ss-font">
+                    <textarea placeholder="这一刻的想法...." maxlength="1000" id="pengyou-wz-nr" name="pengyou-wz-nr"></textarea>
+                </div>
+                <div class="pengyou-upload-insert">
+
+                    <div id="picInput">
+                        <div class="pengyou_upload_input" id="pengyou_upload_input" dqtj="1">
+                            <img id="img_preview1" style="" onclick="uploadbut(1)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview2" style=" display: none;" onclick="uploadbut(2)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview3" style="display: none;" onclick="uploadbut(3)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview4" style="display: none;" onclick="uploadbut(4)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview5" style="display: none;" onclick="uploadbut(5)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview6" style="display: none;" onclick="uploadbut(6)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview7" style="display: none;" onclick="uploadbut(7)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview8" style="display: none;" onclick="uploadbut(8)" src="__PUBLIC__/index/img/insertimg.png">
+                            <img id="img_preview9" style="display: none;" onclick="uploadbut(9)" src="__PUBLIC__/index/img/insertimg.png">
+                        </div>
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg1">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg2">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg3">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg4">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg5">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg6">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg7">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg8">
+                        <input type="file" name="myfile[]" class="pengyou_upload_input_but" style="display:none" id="tjimg9">
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    var z = 1;
+    var tjbutid=$("#pengyou_upload_input").attr('dqtj'),
+        butid=parseInt(tjbutid)+1;
+    var uploadbut = function(id){
+        $("#tjimg"+id).click();
+    }
+</script>
+<script type="text/javascript" src="__PUBLIC__/index/js/imgFileupload.js"></script>
+<script>
+    function fabu()
+    {
+        var formData = new FormData();
+        formData.append("t1", $("#pengyou-wz-nr").val());
+        formData.append("f1[]", $("#tjimg1")[0].files[0]);
+        formData.append("f1[]", $("#tjimg2")[0].files[0]);
+        formData.append("f1[]", $("#tjimg3")[0].files[0]);
+        formData.append("f1[]", $("#tjimg4")[0].files[0]);
+        formData.append("f1[]", $("#tjimg5")[0].files[0]);
+        formData.append("f1[]", $("#tjimg6")[0].files[0]);
+        formData.append("f1[]", $("#tjimg7")[0].files[0]);
+        formData.append("f1[]", $("#tjimg8")[0].files[0]);
+        formData.append("f1[]", $("#tjimg9")[0].files[0]);
+
+        $.ajax({
+            url: "{:U('Home/Content/publish')}",
+            data: formData,
+            type: 'post',
+            datatype: "json",
+            contentType: false,//必须false才会自动加上正确的Content-Type
+            processData: false,//必须false才会避开jQuery对 formdata 的默认处理，XMLHttpRequest会对 formdata 进行正确的处理
+            success: function (data) {
+                if(data.code == 200){
+                    layer.open({
+                        content: data.msg
+                        ,skin: 'msg'
+                        ,time: 1 //2秒后自动关闭
+                        ,end:function(){
+                            window.location.href='/';
+                        }
+                    });
+                }else{
+                    layer.open({
+                        content:data.msg
+                        ,btn: '我知道了'
+                    });
+                }
+            }
+        });
+    }
+</script>
+</body></html>

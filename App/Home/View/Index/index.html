@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>{$Think.CONFIG.sitename}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="__PUBLIC__/index/css/reset.css">
+<link rel="stylesheet" href="__PUBLIC__/index/css/yiqi.css">
+<link rel="stylesheet" href="__PUBLIC__/index/css/main.css">
+<link rel="stylesheet" href="__PUBLIC__/layer_mobile/need/layer.css">
+<link rel="shortcut icon" href="http://localhost/py/favicon.ico">
+
+<script type="text/javascript" src="__PUBLIC__/index/js/jQuery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/index/js/yiqi.js"></script>
+<script type="text/javascript" src="__PUBLIC__/layer_mobile/layer.js"></script>
+<div id="box">
+    <div id="dingwei">
+        <div class="pengyou-head">
+            <div class="pengyou-head-left"><img src="__PUBLIC__/index/img/caidan2.png" onclick="tccebianlan()"></div>
+            <div class="pengyou-head-right"><img src="__PUBLIC__/index/img/photo.png" class="publish"></div>
+        </div>
+        <if condition="$info['background'] eq null">
+        <div class="pengyou-headimg" style="background-image:url(__PUBLIC__/index/img/bg.jpg);background-repeat:no-repeat;background-size:100% 86%;">
+            <div class="pengyou-touxiang">
+                <div class="pengyou-touxiang-name" align="center">
+                    <p>校园朋友圈</p>
+                </div>
+                <div class="pengyou-touxiang-img">
+                    <img src="__PUBLIC__/index/img/pengyouquan.jpg">
+                </div>
+            </div>
+        </div>
+         <else />
+        <div class="pengyou-headimg" style="background-image:url({$info['background']});background-repeat:no-repeat;background-size:100% 86%;">
+            <div class="pengyou-touxiang">
+                <div class="pengyou-touxiang-name" align="center">
+                    <p>校园朋友圈</p>
+                </div>
+                <div class="pengyou-touxiang-img">
+                    <if condition="$info['avatar'] eq null">
+                    <img src="__PUBLIC__/index/img/pengyouquan.jpg">
+                    <else />
+                    <img src="{$info['avatar']}">
+                    </if>
+                </div>
+            </div>
+        </div>
+        </if>
+        <div id="pengyou-content" style="float: left">
+    <!--        朋友圈遍历内容开始-->
+            <foreach name="list" item="vo">
+            <div class="pengyou-shuoshuo" style="float: left">
+                <!--头像-->
+                <div class="pengyou-shuoshuo-left" align="center">
+                    <if condition="$info['avatar']">
+                    <img src="{$info.avatar}">
+                    <else />
+                    <img src="__PUBLIC__/index/img/153665941437.jpg">
+                    </if>
+                </div>
+
+                <div class="pengyou-shuoshuo-right" style="float: left">
+                    <!--昵称和图标-->
+                    <div class="pengyou-shuoshuo-right-name">
+                        <p title="" onclick="Dqopenuser(4)">{$vo.uid|getNicknameById=###}</p>
+                    <!--    <div class="pengyou-shuoshuo-right-name-vip">
+                            <img src="__PUBLIC__/index/img/v2.png" onclick="openvip(4,1)">
+                            <div class="pengyou-shuoshuo-vip" align="center" style="background-color:#ffb400;display: none;" id="name-vip4"><span class="vip-wz-wht">校园认证啊</span></div>
+                        </div>-->
+                    </div>
+                    <!--文字图片视频内容-->
+                    <div class="pengyou-shuoshuo-right-wz" style="float: left"><span style="float: left;">{$vo.text}</span>
+                        <div class="pengyou-photo" style="float: left;clear:both;">
+                            <foreach name="vo['pic']" item="vop">
+                            <img src="__PUBLIC__/index/img/upload/{$vop}" class="sltfd" style="margin-left:3px;">
+                            </foreach>
+                        </div>
+                    </div>
+                    <div class="pengyou-shuoshuo-right-time" style="float: left">
+                        <!--时间-->
+                        <span>{$vo.addtime|date="Y-m-d H:i:s",###}</span>
+                        <div class="pengyou-shuoshuo-right-time-lm">
+                            <!--点赞评论-->
+                            <div class="pengyou-shuoshuo-right-time-lm-nr kuang" id="pengyou-lm{$vo.id}">
+                                <div class="pengyou-shuoshuo-right-time-lm-nr-left" align="center" onclick="dianzan({$vo.id})">
+                                    <img src="__PUBLIC__/index/img/xin2.png"><span>赞</span>
+                                </div>
+                                <div class="pengyou-shuoshuo-right-time-lm-nr-right" align="center" onclick="tcpinglunk(41,4)">
+                                    <img src="__PUBLIC__/index/img/pinglun2.png"><span>评论</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="pengyou-shuoshuo-right-time-img" onclick="zanping({$vo.id})"><img src="__PUBLIC__/index/img/pinglun.png"></div>
+                    </div>
+                    <!--点赞人名单-->
+                    <div class="pengyou-shuoshuo-right-pinglun" id="sspinglun4" style="float: left">
+                        <div class="pengyou-shuoshuo-right-pinglun-zan" id="zanlie{$vo.id}">
+                            <img src="__PUBLIC__/index/img/xin.png">
+                            <foreach name="vo['dianzan_list']" item="zan">
+                           <span id="dianzan_list{$zan}">{$zan}</span>
+                            </foreach>
+                        </div>
+                        <!--评论内容-->
+           <!--             <div class="pengyou-shuoshuo-right-pinglun-wz">
+                            <div class="pengyou-shuoshuo-pl-caidan" style="display:none;">
+                                <div class="pl-img-dingwei">
+                                    <img src="__PUBLIC__/index/img/xx1.png" onclick="plshanchu(59)">
+                                </div>
+                            </div>
+                            <div class="pengyou-shuoshuo-right-pinglun-wz-left">
+                                <span onclick="Dqopenuser(1)">一奇</span>
+                            </div>
+                            <div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>啦啦啦</span>
+                            </div>
+                        </div>-->
+                    </div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            </foreach>
+            <!--内容结束-->
+
+
+        <!--    评论输入框-->
+            <div id="pinglun-pinglun" style="display: none;">
+                <div class="pinglun-dingwei" align="center">
+                    <input type="text" placeholder="评论" maxlength="300" id="pinglunk">
+                </div>
+            </div>
+        </div>
+
+        <div id="zhezhao" style="display: none;"></div>
+        <form action="http://localhost/py/upload_file.php" method="post" enctype="multipart/form-data" id="touxiang-upload-form" style="display: none;">
+
+            <div class="pengyou-upload-k-touxiang">
+                <div class="pengyou-upload-k-head">
+                    <span>更换头像</span>
+                </div>
+                <div class="penyou-upload-k-input" id="penyou-upload-k-input">上传头像</div>
+                <div class="pengyou-upload-k-yulan">
+                    <img src="__PUBLIC__/index/img/pengyouquan.jpg" id="pengyou-upload-img">				</div>
+                <div class="pengyou-upload-k-bottom" align="center">
+                    <input class="vip-bg-blu2" type="submit" value="确定">
+                    <input class="vip-bg-red" type="button" value="取消" onclick="qxupload()">
+                    <input type="file" name="file" id="file" style="display: none">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="pengyou-cebianlandingwei">
+        <div id="pengyou-cebianlan">
+            <div class="pengyou-cbl-span"><img src="__PUBLIC__/index/img/left3.png" onclick="tccebianlan();"></div>
+            <div class="pengyou-cebianlan-touxiang" align="center">
+                <img src="__PUBLIC__/index/img/pengyouquan.jpg">
+                <if condition="$uid eq null">
+                <p>欢迎你游客</p>
+                <else />
+                    <if condition="$info.nickname eq null">
+                    <p>{$info['username']}</p>
+                    <else />
+                    <p>{$info['nickname']}</p>
+                    </if>
+                </if>
+            </div>
+            <div align="left" class="pengyou-cebianlan-left">
+                <ul>
+                    <li><img src="__PUBLIC__/index/img/zy.png"><a href="/">首页</a></li>
+                    <if condition="$uid eq null">
+                    <li><img src="__PUBLIC__/index/img/user3.png"><a href="{:U('Home/User/login')}">登录</a></li>
+                    <li><img src="__PUBLIC__/index/img/reg1.png"><a href="{:U('Home/User/register')}">注册</a></li>
+                 <!--   <li onclick="Newopen(&#39;http://love.zhijiaoqiang.com&#39;)"><img src="__PUBLIC__/index/img/xin2.png"><a href="http://localhost/py/#">说说不约</a></li>
+                    <li onclick="Newopen(&#39;http://zhijiaoqiang.com/make&#39;)"><img src="__PUBLIC__/index/img/jinyan.png"><a href="http://localhost/py/#">照片动起来</a></li>-->
+                    <else />
+                    <li><img src="__PUBLIC__/index/img/gerenxinxi.png"><a href="{:U('Home/User/userinfo')}">个人信息</a></li>
+                    <li><img src="__PUBLIC__/index/img/mima.png"><a href="{:U('Home/User/edit_password')}">修改密码</a></li>
+                    <li><img src="__PUBLIC__/index/img/tuichudenglu.png"><a href="{:U('Home/User/logout')}">退出登录</a></li>
+                    </if>
+                </ul>
+            </div>
+        </div>
+        <input type="hidden" id="islogin" value="{$uid}">
+    </div>
+</div>
+
+
+<script type="text/javascript" src="__PUBLIC__/index/js/pengyou.js"></script>
+<script type="text/javascript">
+    $('.publish').click(function(){
+        window.location.href="{:U('Home/Content/publish')}";
+    });
+
+    function wcimg(){
+        byId('zhezhao2').remove();
+        byId('pengyou-fdimg').remove();
+    }
+    function csa(){
+        wcimg();
+    }
+    function imgerrorfun(){
+        var img=event.srcElement;
+        img.src="images/touxiang/morentouxiang.png";
+        img.onerror=null;
+    }
+    $('#penyou-upload-k-input').click(function(){
+        $('#file').click();
+    });
+    $("#file").change(function (e) {
+        //获取目标文件
+        var file = e.target.files || e.dataTransfer.files;
+        //如果目标文件存在
+        if (file) {
+            //定义一个文件阅读器
+            var reader = new FileReader();
+            //文件装载后将其显示在图片预览里
+            reader.onload = function () {
+
+                $("#pengyou-upload-img").attr("src", this.result);
+            }
+
+            //装载文件
+            reader.readAsDataURL(file[0]);
+        }
+    });
+    var qxupload = function(){
+        $('#zhezhao').hide();
+        $('#touxiang-upload-form').hide();
+    }
+    var uploadtouxiang = function(){
+        $('#zhezhao').show();
+        $('#touxiang-upload-form').show();
+    }
+
+    //点赞、评论按钮的出现于隐藏
+    function zanping(id){
+        if($("#pengyou-lm"+id).css('right') == '-150px'){
+            $('.kuang').css('right','-150px');
+            $('#pengyou-lm'+id).css('right','0')
+        }else{
+            $('#pengyou-lm'+id).css('right','-150px')
+        }
+    };
+
+    //点赞
+    var dianzan = function(id){
+        var islogin = $('#islogin').val();
+        if(!islogin){
+            layer.open({
+                content: '您还没有登录哦！'
+                ,btn: '我知道了'
+                ,end:function(){
+                    window.location.href='/index.php/Home/User/login';
+                }
+            });
+        }
+
+        var qx = $('.pengyou-shuoshuo-right-time-lm-nr-left').attr('qx');
+
+        $.post("{:U('Home/Content/zan')}", {id:id,qx:qx},function(data){
+                var zanlie = $('#zanlie'+id);
+                if(data.code==200){
+                    //点赞成功
+                    var pl1=document.createElement("span");
+                    pl1.innerText=data.user;
+                    zanlie.append(pl1);
+                    if(zanlie.css("display")=='none'){
+                        zanlie.css("display","block")
+                    }
+                    $('#pengyou-lm'+id).children('.pengyou-shuoshuo-right-time-lm-nr-left').attr('qx',1);
+                    $('#pengyou-lm'+id).children('.pengyou-shuoshuo-right-time-lm-nr-left').children('span').text('取消');
+                }else if(data.code == 201){
+                    //取消点赞
+                    zanlie.children('span').remove();
+                    var z=0;
+                    for(var i in data.user){
+                        var pl1=document.createElement("span");
+                        pl1.innerText=data.user[i];
+                        zanlie.append(pl1);
+                        z++;
+                    }
+                    if(z==0){
+                        $('#zanlie'+id).css("display",'none');
+                    }
+                    $('#pengyou-lm'+id).children('.pengyou-shuoshuo-right-time-lm-nr-left').children('span').text('赞');
+                }else if(data.code==20000000){
+                    //操作失败
+                    //信息框
+                    layer.open({
+                        content: '操作失败，请重试！'
+                        ,btn: '我知道了'
+                    });
+                }
+            },"json");
+    };
+</script>
+</body>
+</html>
