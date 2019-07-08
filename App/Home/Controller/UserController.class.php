@@ -124,4 +124,12 @@ class UserController extends ComController
             $this -> display();
         }
     }
+
+    //退出登录
+    public function logout()
+    {
+        session(null);
+        $this -> redirect('Home/User/login');
+
+    }
 }

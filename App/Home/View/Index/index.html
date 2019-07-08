@@ -85,9 +85,15 @@
                         <div class="pengyou-shuoshuo-right-time-lm">
                             <!--点赞评论-->
                             <div class="pengyou-shuoshuo-right-time-lm-nr kuang" id="pengyou-lm{$vo.id}">
-                                <div class="pengyou-shuoshuo-right-time-lm-nr-left" align="center" onclick="dianzan({$vo.id})">
+                                <in name="$uid" value="$vo['dianzan_list_user']">
+                                <div class="pengyou-shuoshuo-right-time-lm-nr-left" id="{$vo.id}" align="center" onclick="dianzan({$vo.id})">
                                     <img src="__PUBLIC__/index/img/xin2.png"><span>赞</span>
                                 </div>
+                                <else />
+                                <div class="pengyou-shuoshuo-right-time-lm-nr-left" id="{$vo.id}" qx="1" align="center" onclick="dianzan({$vo.id})">
+                                    <img src="__PUBLIC__/index/img/xin2.png"><span>取消</span>
+                                </div>
+                                </in>
                                 <div class="pengyou-shuoshuo-right-time-lm-nr-right" align="center" onclick="tcpinglunk(41,4)">
                                     <img src="__PUBLIC__/index/img/pinglun2.png"><span>评论</span>
                                 </div>
@@ -96,14 +102,16 @@
                         </div>
                         <div class="pengyou-shuoshuo-right-time-img" onclick="zanping({$vo.id})"><img src="__PUBLIC__/index/img/pinglun.png"></div>
                     </div>
-                    <!--点赞人名单-->
                     <div class="pengyou-shuoshuo-right-pinglun" id="sspinglun4" style="float: left">
-                        <div class="pengyou-shuoshuo-right-pinglun-zan" id="zanlie{$vo.id}">
+                        <!--点赞人名单-->
+
+                        <div class="pengyou-shuoshuo-right-pinglun-zan" <if condition="$vo['dianzan_list_nickname'] eq null">style="display: none"</if> id="zanlie{$vo.id}">
                             <img src="__PUBLIC__/index/img/xin.png">
-                            <foreach name="vo['dianzan_list']" item="zan">
+                            <foreach name="vo['dianzan_list_nickname']" item="zan">
                            <span id="dianzan_list{$zan}">{$zan}</span>
                             </foreach>
                         </div>
+
                         <!--评论内容-->
            <!--             <div class="pengyou-shuoshuo-right-pinglun-wz">
                             <div class="pengyou-shuoshuo-pl-caidan" style="display:none;">
@@ -259,7 +267,8 @@
             });
         }
 
-        var qx = $('.pengyou-shuoshuo-right-time-lm-nr-left').attr('qx');
+        // var qx = $('.pengyou-shuoshuo-right-time-lm-nr-left').attr('qx');
+        var qx = $('#'+id).attr('qx');
 
         $.post("{:U('Home/Content/zan')}", {id:id,qx:qx},function(data){
                 var zanlie = $('#zanlie'+id);
@@ -286,12 +295,13 @@
                     if(z==0){
                         $('#zanlie'+id).css("display",'none');
                     }
+                    $('#pengyou-lm'+id).children('.pengyou-shuoshuo-right-time-lm-nr-left').attr('qx',null);
                     $('#pengyou-lm'+id).children('.pengyou-shuoshuo-right-time-lm-nr-left').children('span').text('赞');
-                }else if(data.code==20000000){
+                }else{
                     //操作失败
                     //信息框
                     layer.open({
-                        content: '操作失败，请重试！'
+                        content: data.msg
                         ,btn: '我知道了'
                     });
                 }

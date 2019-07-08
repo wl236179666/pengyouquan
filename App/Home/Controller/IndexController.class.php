@@ -40,8 +40,11 @@ class IndexController extends ComController
                 }
             }
             //点赞用户
-            $zan_list = M('content_zan') -> where(['content_id' => $val['id']]) -> getField('dianzan_user',true);
-            $list[$key]['dianzan_list'] = $zan_list;
+            $zan_list_nickname = M('content_zan') -> where(['content_id' => $val['id']]) -> order('id asc') -> getField('dianzan_nickname',true);
+            $zan_list_uid = M('content_zan') -> where(['content_id' => $val['id']]) -> getField('dianzan_user',true);
+            $list[$key]['dianzan_list_nickname'] = $zan_list_nickname;
+            $list[$key]['dianzan_list_user'] = $zan_list_uid;
+            //当前登录用户
         }
 //        var_dump($list);die;
         $this -> assign('list',$list);

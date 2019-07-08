@@ -156,20 +156,26 @@ class ContentController extends ComController
 //                $zan_username = implode(',',$zan_username_arr);
                 $this -> ajaxReturn(array('code' => 201,'user' => $zan_username_arr,'msg' => '取消赞操作成功！'));
             }else{
-                $this -> ajaxReturn(array('code' => 500,'msg' => '取消赞操作失败！'));
+                $this -> ajaxReturn(array('code' => 500,'msg' => '取消赞操作失败'));
             }
         }else{
-            $data['content_id'] = $shuoshuo_id;
-            $data['dianzan_user'] = $uid;
-            $data['dianzan_nickname'] = getNicknameById($uid);
-            $data['addtime'] = time();
+            //判断是否已存在记录
+            $is_exist = M('content_zan') -> where(['content_id' => $shuoshuo_id,'dianzan_user' => $uid]) -> getField('id');
+            if(!$is_exist){
+                $data['content_id'] = $shuoshuo_id;
+                $data['dianzan_user'] = $uid;
+                $data['dianzan_nickname'] = getNicknameById($uid);
+                $data['addtime'] = time();
 
-            $res = M('content_zan') -> data($data) -> add();
-            if($res){
-                $zan_username = getNicknameById($uid);
-                $this -> ajaxReturn(array('code' => 200,'user' => $zan_username,'msg' => '点赞操作成功！'));
+                $res = M('content_zan') -> data($data) -> add();
+                if($res){
+                    $zan_username = getNicknameById($uid);
+                    $this -> ajaxReturn(array('code' => 200,'user' => $zan_username,'msg' => '点赞操作成功！'));
+                }else{
+                    $this -> ajaxReturn(array('code' => 500,'msg' => '点赞操作失败！'));
+                }
             }else{
-                $this -> ajaxReturn(array('code' => 500,'msg' => '点赞操作失败！'));
+                $this -> ajaxReturn(array('code' => 501,'msg' => '您已点过赞了！'));
             }
         }
     }
