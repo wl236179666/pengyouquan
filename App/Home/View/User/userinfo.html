@@ -68,28 +68,28 @@
                         <div class="weui-cell">
                             <div class="weui-cell__hd"><label class="weui-label">昵称</label></div>
                             <div class="weui-cell__bd">
-                                <input class="weui-input" type="text" id="nickname" value="{$info['nickname']}" placeholder="请输入昵称" />
+                                <input class="weui-input" type="text" id="nickname" value="{$info['nickname']}" <if condition="$noteme eq 1">disabled</if> placeholder="请输入昵称" />
                             </div>
                         </div>
 
                         <div class="weui-cell">
                             <div class="weui-cell__hd"><label class="weui-label">QQ</label></div>
                             <div class="weui-cell__bd">
-                                <input class="weui-input" type="number" id="qq" value="{$info['qq']}" pattern="[0-9]*" placeholder="QQ号" />
+                                <input class="weui-input" type="number" id="qq" value="{$info['qq']}" pattern="[0-9]*" <if condition="$noteme eq 1">disabled</if> placeholder="QQ号" />
                             </div>
                         </div>
 
                         <div class="weui-cell">
                             <div class="weui-cell__hd"><label class="weui-label">邮箱</label></div>
                             <div class="weui-cell__bd">
-                                <input class="weui-input" type="email" id="mail" value="{$info['mail']}" placeholder="邮箱" />
+                                <input class="weui-input" type="email" id="mail" value="{$info['mail']}" <if condition="$noteme eq 1">disabled</if> placeholder="邮箱" />
                             </div>
                         </div>
 
                         <div class="weui-cell">
                             <div class="weui-cell__hd"><label class="weui-label">年龄</label></div>
                             <div class="weui-cell__bd">
-                                <input class="weui-input" type="number" id="age" value="{$info['age']}" pattern="[0-9]*" placeholder="年龄" />
+                                <input class="weui-input" type="number" id="age" value="{$info['age']}" pattern="[0-9]*" <if condition="$noteme eq 1">disabled</if> placeholder="年龄" />
                             </div>
                         </div>
 
@@ -98,10 +98,10 @@
                                 <label class="weui-label">手机号</label>
                             </div>
                             <div class="weui-cell__bd">
-                                <input class="weui-input" type="tel" id="phone" value="{$info['phone']}" placeholder="请输入手机号" />
+                                <input class="weui-input" type="tel" id="phone" value="{$info['phone']}" <if condition="$noteme eq 1">disabled</if> placeholder="请输入手机号" />
                             </div>
                             <div class="weui-cell__ft">
-                                <button class="weui-vcode-btn">获取验证码</button>
+                                <button class="weui-vcode-btn" <if condition="$noteme eq 1">disabled</if>>获取验证码</button>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
                                             <p>男</p>
                                         </div>
                                         <div class="weui-cell__ft">
-                                            <input type="radio" class="weui-check" name="gender" id="x11" <if condition="$info['gender'] eq 1">checked</if> />
+                                            <input type="radio" class="weui-check" name="gender" id="x11" <if condition="$noteme eq 1">disabled</if> <if condition="$info['gender'] eq 1">checked</if> />
                                             <span class="weui-icon-checked"></span>
                                         </div>
                                     </label>
@@ -137,7 +137,7 @@
                                             <p>女</p>
                                         </div>
                                         <div class="weui-cell__ft">
-                                            <input type="radio" name="gender" class="weui-check" id="x12" <if condition="$info['gender'] eq 2">checked</if> />
+                                            <input type="radio" name="gender" class="weui-check" id="x12" <if condition="$noteme eq 1">disabled</if> <if condition="$info['gender'] eq 2">checked</if> />
                                             <span class="weui-icon-checked"></span>
                                         </div>
                                     </label>
@@ -200,9 +200,11 @@
                             <!--</div>-->
                         <!--</div>-->
                     </div>
+                    <if condition="$noteme neq 1">
                     <div class="weui-btn-area">
                         <a class="weui-btn weui-btn_primary" href="javascript:" onclick="submit()">提交</a>
                     </div>
+                    </if>
                 </div>
             </div>
         </div>

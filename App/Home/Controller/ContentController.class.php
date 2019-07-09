@@ -43,7 +43,7 @@ class ContentController extends ComController
                     $data['addtime'] = time();
                     $data['check'] = 1;
                     $crId = M('content') -> add($data);
-//var_Dump($name);die;
+
                     //当前位置
                     foreach ($name as $k=>$names){
                         $type = strtolower(substr($names,strrpos($names,'.')+1));//得到文件类型，并且都转化成小写
@@ -176,6 +176,69 @@ class ContentController extends ComController
                 }
             }else{
                 $this -> ajaxReturn(array('code' => 501,'msg' => '您已点过赞了！'));
+            }
+        }
+    }
+
+    //评论
+    public function comment()
+    {
+        $uid = session('uid');
+        if(!$uid){
+            if(!$uid){
+                $this -> redirect("Home/User/login");
+            }
+        }
+
+        $shuoshuo_id = I('post.biaoshi');
+        $content = I('post.content');
+        $to_user = I('post.to_user');
+
+        if(!$shuoshuo_id){
+            $this -> ajaxReturn(array('code' => 400,'msg' => '参数错误！'));
+        }
+        if(!$content){
+            $this -> ajaxReturn(array('code' => 401,'msg' => '没有内容！'));
+        }
+
+        $nickname = getNicknameById($uid);
+
+        $data['content_id'] = $shuoshuo_id;
+        $data['comment_uid'] = $uid;
+        $data['comment_nickname'] = $nickname;
+        $data['content'] = $content;
+        $data['addtime'] = time();
+        $data['to_user'] = $to_user;
+
+        $res = M('content_comment') -> data($data) -> add();
+        $to_user_nickname = null;
+        if($res){
+            if($to_user != 0){
+                $to_user_nickname = getNicknameById($to_user);
+            }
+            $this -> ajaxReturn(array('code' => 200,'msg' => '发布成功！','id' => $uid,'name' => $nickname,'content' => $content,'content_id' => $shuoshuo_id,'to_user' => $to_user,'to_user_nickname' => $to_user_nickname));
+        }else{
+            $this -> ajaxReturn(array('code' => 500,'msg' => '发布失败！'));
+        }
+    }
+
+    //删除评论
+    public function comment_del()
+    {
+        if(IS_POST && IS_AJAX){
+            $id = I('post.id');
+            if(!$id){
+                $this -> ajaxReturn(array('code' => 401,'msg' => '缺少参数！'));
+            }
+            $uid = session('uid');
+            if(!$uid){
+                $this -> ajaxReturn(array('code' => 402,'msg' => '您没有登录！'));
+            }
+            $res = M('content_comment') -> where(['id' => $id]) -> delete();
+            if($res){
+                $this -> ajaxReturn(array('code' => 200,'msg' => '删除成功！'));
+            }else{
+                $this -> ajaxReturn(array('code' => 500,'msg' => '删除失败，请重试！'));
             }
         }
     }

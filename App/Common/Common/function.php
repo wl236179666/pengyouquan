@@ -180,7 +180,11 @@ function articleUrl($data)
 //根据用户uid获取昵称
 function getNicknameById($uid)
 {
-    return M('user') ->where(['id' => $uid]) -> getField('nickname');
+    $nickname = M('user') ->where(['id' => $uid]) -> getField('nickname');
+    if(!$nickname){
+        $nickname = M('user') ->where(['id' => $uid]) -> getField('username');
+    }
+    return $nickname;
 }
 
 

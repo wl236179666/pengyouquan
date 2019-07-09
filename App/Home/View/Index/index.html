@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="__PUBLIC__/index/css/yiqi.css">
 <link rel="stylesheet" href="__PUBLIC__/index/css/main.css">
 <link rel="stylesheet" href="__PUBLIC__/layer_mobile/need/layer.css">
-<link rel="shortcut icon" href="http://localhost/py/favicon.ico">
 
 <script type="text/javascript" src="__PUBLIC__/index/js/jQuery.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/index/js/yiqi.js"></script>
@@ -65,7 +64,7 @@
                 <div class="pengyou-shuoshuo-right" style="float: left">
                     <!--昵称和图标-->
                     <div class="pengyou-shuoshuo-right-name">
-                        <p title="" onclick="Dqopenuser(4)">{$vo.uid|getNicknameById=###}</p>
+                        <p title="" onclick="Dqopenuser({$vo.uid})">{$vo.uid|getNicknameById=###}</p>
                     <!--    <div class="pengyou-shuoshuo-right-name-vip">
                             <img src="__PUBLIC__/index/img/v2.png" onclick="openvip(4,1)">
                             <div class="pengyou-shuoshuo-vip" align="center" style="background-color:#ffb400;display: none;" id="name-vip4"><span class="vip-wz-wht">校园认证啊</span></div>
@@ -94,7 +93,7 @@
                                     <img src="__PUBLIC__/index/img/xin2.png"><span>取消</span>
                                 </div>
                                 </in>
-                                <div class="pengyou-shuoshuo-right-time-lm-nr-right" align="center" onclick="tcpinglunk(41,4)">
+                                <div class="pengyou-shuoshuo-right-time-lm-nr-right" align="center" onclick="tcpinglunk({$vo.id})">
                                     <img src="__PUBLIC__/index/img/pinglun2.png"><span>评论</span>
                                 </div>
                             </div>
@@ -102,7 +101,7 @@
                         </div>
                         <div class="pengyou-shuoshuo-right-time-img" onclick="zanping({$vo.id})"><img src="__PUBLIC__/index/img/pinglun.png"></div>
                     </div>
-                    <div class="pengyou-shuoshuo-right-pinglun" id="sspinglun4" style="float: left">
+                    <div class="pengyou-shuoshuo-right-pinglun" id="sspinglun{$vo.id}" style="float: left">
                         <!--点赞人名单-->
 
                         <div class="pengyou-shuoshuo-right-pinglun-zan" <if condition="$vo['dianzan_list_nickname'] eq null">style="display: none"</if> id="zanlie{$vo.id}">
@@ -113,23 +112,32 @@
                         </div>
 
                         <!--评论内容-->
-           <!--             <div class="pengyou-shuoshuo-right-pinglun-wz">
+                    <foreach name="vo['comment']" item="pinglun">
+                        <if condition="$pinglun.comment_uid neq $uid">
+                        <div class="pengyou-shuoshuo-right-pinglun-wz" onclick="huifu({$vo.id},{$pinglun.comment_uid},'{$pinglun.comment_nickname}')">
+                        <else />
+                        <div class="pengyou-shuoshuo-right-pinglun-wz" id="pinglun{$pinglun.id}" onclick="shanchu({$pinglun.id})">
+                        </if>
                             <div class="pengyou-shuoshuo-pl-caidan" style="display:none;">
                                 <div class="pl-img-dingwei">
                                     <img src="__PUBLIC__/index/img/xx1.png" onclick="plshanchu(59)">
                                 </div>
                             </div>
                             <div class="pengyou-shuoshuo-right-pinglun-wz-left">
-                                <span onclick="Dqopenuser(1)">一奇</span>
+                                <if condition="$pinglun.to_user neq 0">
+                                <span >{$pinglun.comment_nickname}<b style="color: #0d0d0d"> 回复 </b>{$pinglun.to_user|getNicknameById|=###}</span>
+                                <else />
+                                <span>{$pinglun.comment_nickname}</span>
+                                </if>
                             </div>
-                            <div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>啦啦啦</span>
-                            </div>
-                        </div>-->
-                    </div>
+                            <div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>{$pinglun.content}</span></div>
+                        </div>
+                    </foreach>
 
+                    </div>
+            </div>
                 </div>
                 <div class="clear"></div>
-            </div>
             </foreach>
             <!--内容结束-->
 
@@ -143,7 +151,7 @@
         </div>
 
         <div id="zhezhao" style="display: none;"></div>
-        <form action="http://localhost/py/upload_file.php" method="post" enctype="multipart/form-data" id="touxiang-upload-form" style="display: none;">
+  <!--      <form action="http://localhost/py/upload_file.php" method="post" enctype="multipart/form-data" id="touxiang-upload-form" style="display: none;">
 
             <div class="pengyou-upload-k-touxiang">
                 <div class="pengyou-upload-k-head">
@@ -158,7 +166,7 @@
                     <input type="file" name="file" id="file" style="display: none">
                 </div>
             </div>
-        </form>
+        </form>-->
     </div>
 
     <div id="pengyou-cebianlandingwei">
@@ -307,6 +315,123 @@
                 }
             },"json");
     };
+
+    //评论框
+    var tcpinglunk = function(id){
+        if($('#pinglun-pinglun').css('display')=='none'){
+
+            var Zid='#pengyou-lm'+id;
+            if ($(Zid).css('right')=='-150px'){
+                $(Zid).css('right','0');
+            }else{
+                $(Zid).css('right','-150px');
+            }
+
+            $('#pinglunk').attr('plid',id);
+            $('#pinglunk').attr('plpx',id);
+            $('#pinglun-pinglun').css('display','block');
+        }else{
+
+            var Zid='#pengyou-lm'+id;
+            if ($(Zid).css('right')=='-150px'){
+                $(Zid).css('right','0');
+            }else{
+                $(Zid).css('right','-150px');
+            }
+
+            $('#pinglun-pinglun').css('display','none');
+        }
+        tijiao();
+    };
+
+    function tijiao(to_user){
+        //评论提交
+        $('#pinglunk').keyup(function(event){
+            var anxia = event.keyCode;
+            if(anxia==13){
+                var content = $('#pinglunk').val(),
+                toId = $('#pinglunk').attr('plid');  //说说id
+                paixu = $('#pinglunk').attr('plpx');
+                $.post("{:U('Home/Content/comment')}", {"content":content,"biaoshi":toId,"to_user":to_user},function(data){
+                    if(data.code == 200){
+                        layer.open({
+                            content: '发表成功！'
+                            ,skin: 'msg'
+                            ,time: 1 //2秒后自动关闭
+                            ,end:function(){
+                                var pl = $('#sspinglun'+paixu);
+                                pl1=document.createElement("div");
+                                pl1.className='pengyou-shuoshuo-right-pinglun-wz';
+                                if(to_user){
+                                    pl1.innerHTML='<div class="pengyou-shuoshuo-right-pinglun-wz-left"><span onclick="huifu('+data.content_id+','+data.id+','+data.name+')">'+data.name+'<b style="color: #0d0d0d"> 回复 </b>'+data.to_user_nickname+'</span></div><div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>&nbsp;'+data.content+'</span></div>';
+
+                                }else{
+                                    pl1.innerHTML='<div class="pengyou-shuoshuo-right-pinglun-wz-left"><span onclick="huifu('+data.content_id+','+data.id+','+data.name+')">'+data.name+'</span></div><div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>&nbsp;'+data.content+'</span></div>';
+                                }
+                                pl.append(pl1);
+                                $('#pinglunk').val('');
+                                $('#pinglun-pinglun').css("display",'none');
+                            }
+                        });
+                    }else{
+                        tishi(2,data.msg,1500,'zx.php');
+                        $('#pinglun-pinglun').css("display",'none');
+                    }
+                }, "json");
+            }
+
+        });
+    }
+
+    //查看用户信息
+    function Dqopenuser(uid){
+        window.location.href="{:U('Home/User/userinfo')}?uid="+uid
+    }
+
+    //回复评论
+    function huifu(content_id,user_id,nickname)     //内容id，回复哪个用户的uid
+    {
+        var uid = $('#islogin').val();
+        if(uid == user_id){
+            //TODO 删除评论操作
+            alert('删除评论')
+            return false;
+        }
+
+        $('#pinglunk').attr('plid',content_id);
+        $('#pinglunk').attr('plpx',content_id);
+        $('#pinglun-pinglun').css('display','block');
+        $('#pinglunk').attr('placeholder','回复'+nickname+'：');
+        tijiao(user_id);
+
+        // $('#pinglun-pinglun').css('display','none');
+    }
+
+    //删除评论
+    function shanchu(comment_id)
+    {
+        layer.open({
+            content: '删除我的评论'
+            ,btn: ['取消', '删除']
+            ,skin: 'footer'
+            ,no: function(index){
+                // layer.open({content: '执行删除操作'})
+                $.post("{:U('Home/Content/comment_del')}", {"id" : comment_id},function(data){
+                    if(data.code == 200){
+                        $('#pinglun'+comment_id).remove();
+                    }else if(data.code == 402){
+                        window.location.href="{:U('Home/User/login')}";
+                    }else{
+                        layer.open({
+                            content: data.msg
+                            ,btn: '我知道了'
+                        });
+                    }
+                }, "json");
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

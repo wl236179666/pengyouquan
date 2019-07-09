@@ -118,7 +118,14 @@ class UserController extends ComController
             }
 
         }else{
-            $info = M('user') -> where(['id' => $uid]) -> field('username,nickname,qq,mail,phone,gender,age,avatar,background,addtime') -> find();
+            $user_id = I('get.uid');
+            if($user_id && $user_id != $uid){
+                //查看别人的信息
+                $info = M('user') -> where(['id' => $user_id]) -> field('username,nickname,qq,mail,phone,gender,age,avatar,background,addtime') -> find();
+                $this -> assign('noteme',1);
+            }else{
+                $info = M('user') -> where(['id' => $uid]) -> field('username,nickname,qq,mail,phone,gender,age,avatar,background,addtime') -> find();
+            }
 
             $this -> assign('info',$info);
             $this -> display();

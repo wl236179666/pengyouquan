@@ -44,9 +44,16 @@ class IndexController extends ComController
             $zan_list_uid = M('content_zan') -> where(['content_id' => $val['id']]) -> getField('dianzan_user',true);
             $list[$key]['dianzan_list_nickname'] = $zan_list_nickname;
             $list[$key]['dianzan_list_user'] = $zan_list_uid;
-            //当前登录用户
+            //说说评论
+            $comment_list = M('content_comment')
+                -> where(['content_id' => $val['id']])
+                -> field('id,comment_uid,comment_nickname,content,to_user')
+                -> order('id asc')
+                -> select();
+
+            $list[$key]['comment'] = $comment_list;
         }
-//        var_dump($list);die;
+//        var_dump($list[0]['comment']);die;
         $this -> assign('list',$list);
         $this->display();
     }

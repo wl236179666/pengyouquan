@@ -29,12 +29,26 @@
 	});
 	var tcpinglunk = function(id,px){
 		if($('#pinglun-pinglun').css('display')=='none'){
-			tcdzpl(px);
+
+			var Zid='#pengyou-lm'+id;
+			if ($(Zid).css('right')=='-150px'){
+				$(Zid).css('right','0');
+			}else{
+				$(Zid).css('right','-150px');
+			}
+
 			$('#pinglunk').attr('plid',id);
 			$('#pinglunk').attr('plpx',px);
 			$('#pinglun-pinglun').css('display','block');
 		}else{
-			tcdzpl(px);
+
+			var Zid='#pengyou-lm'+id;
+			if ($(Zid).css('right')=='-150px'){
+				$(Zid).css('right','0');
+			}else{
+				$(Zid).css('right','-150px');
+			}
+
 			$('#pinglun-pinglun').css('display','none');
 		}
 	};
@@ -45,34 +59,34 @@
 		$("#name-vip"+id).toggle();
 		
 	};
-	$('#pinglunk').keyup(function(event){
-		var anxia = event.keyCode;
-		if(anxia==13){
-			var content = $('#pinglunk').val(),
-				toId = $('#pinglunk').attr('plid'),
-				paixu = $('#pinglunk').attr('plpx');
-				$.post("pinglun.php", { 
-					"content":content,
-					"biaoshi":toId
-				},
-				   function(data){
-					if(data.success){
-					 tishi(2,data.msg,1500); // John
-					 var pl = $('#sspinglun'+paixu),
-						 pl1=document.createElement("div");
-						pl1.className='pengyou-shuoshuo-right-pinglun-wz';
-						pl1.innerHTML='<div class="pengyou-shuoshuo-right-pinglun-wz-left"><span onclick="Dqopenuser('+data.Id+')">'+data.name+'</span></div><div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>'+data.content+'</span></div>';
-					pl.append(pl1);
-					$('#pinglunk').val('');
-					$('#pinglun-pinglun').css("display",'none');
-					}else{
-						 tishi(1,data.msg,1500,'zx.php');
-						$('#pinglun-pinglun').css("display",'none');
-					}
-				   }, "json");
-		   }
-		
-	});
+	// $('#pinglunk').keyup(function(event){
+	// 	var anxia = event.keyCode;
+	// 	if(anxia==13){
+	// 		var content = $('#pinglunk').val(),
+	// 			toId = $('#pinglunk').attr('plid'),
+	// 			paixu = $('#pinglunk').attr('plpx');
+	// 			$.post("pinglun.php", {
+	// 				"content":content,
+	// 				"biaoshi":toId
+	// 			},
+	// 			   function(data){
+	// 				if(data.success){
+	// 				 tishi(2,data.msg,1500); // John
+	// 				 var pl = $('#sspinglun'+paixu),
+	// 					 pl1=document.createElement("div");
+	// 					pl1.className='pengyou-shuoshuo-right-pinglun-wz';
+	// 					pl1.innerHTML='<div class="pengyou-shuoshuo-right-pinglun-wz-left"><span onclick="Dqopenuser('+data.Id+')">'+data.name+'</span></div><div class="pengyou-shuoshuo-right-pinglun-wz-right"><span>'+data.content+'</span></div>';
+	// 				pl.append(pl1);
+	// 				$('#pinglunk').val('');
+	// 				$('#pinglun-pinglun').css("display",'none');
+	// 				}else{
+	// 					 tishi(1,data.msg,1500,'zx.php');
+	// 					$('#pinglun-pinglun').css("display",'none');
+	// 				}
+	// 			   }, "json");
+	// 	   }
+	//
+	// });
 	var dianzan = function(id,px){
 		 $.get("dianzan.php", {
 			 Id:id
