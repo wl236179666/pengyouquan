@@ -124,10 +124,14 @@ class UserController extends ComController
                 $info = M('user') -> where(['id' => $user_id]) -> field('username,nickname,qq,mail,phone,gender,age,avatar,background,addtime') -> find();
                 $this -> assign('noteme',1);
             }else{
+                if(!$user_id){
+                    $user_id = $uid;
+                }
                 $info = M('user') -> where(['id' => $uid]) -> field('username,nickname,qq,mail,phone,gender,age,avatar,background,addtime') -> find();
             }
 
             $this -> assign('info',$info);
+            $this -> assign('user_id',$user_id);
             $this -> display();
         }
     }
@@ -138,5 +142,45 @@ class UserController extends ComController
         session(null);
         $this -> redirect('Home/User/login');
 
+    }
+
+    //修改密码
+    public function pass_edit()
+    {
+        $uid = session('uid');
+        if(!$uid){
+            $this -> redirect("Home/User/login");
+        }
+        if(IS_POST && IS_AJAX){
+            $old_pass = I('post.pass');
+            $new_pass = I('post.newpass');
+            $ok_pass = I('post.okpass');
+
+            if(!$old_pass || !$new_pass || !$ok_pass){
+                $this -> ajaxReturn(array('code' => 400,'msg' => '参数错误！'));
+            }
+
+            $password = M('user') -> where(['id' => $uid]) -> getField('password');
+            if($password !== $old_pass){
+                $this -> ajaxReturn(array('code' => 401,'msg' => '密码不正确！'));
+            }else{
+                if($new_pass != $ok_pass){
+                    $this -> ajaxReturn(array('code' => 402,'msg' => '新密码两次输入不一致！'));
+                }else{
+                    if($new_pass == $password){
+                        $this -> ajaxReturn(array('code' => 403,'msg' => '密码未修改！'));
+                    }else{
+                        $res = M('user') -> where(['id' => $uid]) -> setField('password',$new_pass);
+                        if($res){
+                            $this -> ajaxReturn(array('code' => 200,'msg' => '密码修改成功！'));
+                        }else{
+                            $this -> ajaxReturn(array('code' => 500,'msg' => '服务器繁忙，请稍后重试！'));
+                        }
+                    }
+                }
+            }
+        }else{
+            $this -> display();
+        }
     }
 }

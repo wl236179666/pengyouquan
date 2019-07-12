@@ -216,7 +216,7 @@ class ContentController extends ComController
             if($to_user != 0){
                 $to_user_nickname = getNicknameById($to_user);
             }
-            $this -> ajaxReturn(array('code' => 200,'msg' => '发布成功！','id' => $uid,'name' => $nickname,'content' => $content,'content_id' => $shuoshuo_id,'to_user' => $to_user,'to_user_nickname' => $to_user_nickname));
+            $this -> ajaxReturn(array('code' => 200,'msg' => '发布成功！','id' => $uid,'name' => $nickname,'content' => $content,'content_id' => $shuoshuo_id,'to_user' => $to_user,'to_user_nickname' => $to_user_nickname,'dangqian_id' => $res));
         }else{
             $this -> ajaxReturn(array('code' => 500,'msg' => '发布失败！'));
         }

@@ -12,7 +12,6 @@ class IndexController extends ComController
 {
     public function index()
     {
-//        session('uid',null);
         $uid = session('uid');
         if($uid){
             $info = M('user') -> where(['id' => $uid]) -> field('username,nickname,avatar,background') -> find();
@@ -25,10 +24,22 @@ class IndexController extends ComController
         if(!is_numeric($page)){
             $this -> error('参数错误！');
         }
+        $user_id = I('get.uid');
+        $where['check'] = 1;
+
+        if($user_id){
+            $where['uid'] = $user_id;
+        }
         //每页显示的条数
         $pageSize = 20;
         $limit = ($page - 1) * $pageSize;
-        $list=M('content')->where(['check' => 1])->order('addtime desc')->limit($limit.','.$pageSize)->select();
+        $list=M('content')
+            ->join('user ON user.id = content.uid')
+            ->where($where)
+            ->order('addtime desc')
+            ->limit($limit.','.$pageSize)
+            ->field('content.*,user.avatar')
+            ->select();
         foreach($list as $key  => $val){
             //每条说说的图片
             for($i=1;$i<10;$i++){
@@ -53,7 +64,7 @@ class IndexController extends ComController
 
             $list[$key]['comment'] = $comment_list;
         }
-//        var_dump($list[0]['comment']);die;
+
         $this -> assign('list',$list);
         $this->display();
     }

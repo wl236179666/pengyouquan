@@ -1,0 +1,82 @@
+<html class="translated-ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>修改密码</title>
+<link href="__PUBLIC__/index/css/yiqi.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/index/css/reset.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="__PUBLIC__/layer_mobile/need/layer.css">
+<script type="text/javascript" src="__PUBLIC__/index/js/jQuery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/index/js/yiqi.js"></script>
+<script type="text/javascript" src="__PUBLIC__/layer_mobile/layer.js"></script>
+
+
+	<div class="yiqi-login-head">
+		<a href="#" onclick="javaScript:history.back(-1);"><h3><span>‹</span>返回</h3></a>
+	</div>
+	<div class="yiqi-login-content">
+		<div class="yiqi-login-content-head" align="center">
+				<img src="__PUBLIC__/index/img/pengyouquan1.png">
+		</div>
+		</div>
+		<div class="yiqi-login-table" align="center">
+			<input type="password" placeholder="请输入原始密码" class="yiqi-login-pass-icon" id="reg-username">
+			<input type="password" placeholder="请输入新密码" class="yiqi-login-pass-icon" id="reg-pass">
+			<input type="password" placeholder="请确认密码" class="yiqi-login-pass-icon" id="reg-okpass">
+			<p id="regtishi"></p>
+			<button type="submit" id="Dregbut"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">确定</font></font></button>
+		</div>
+	</div>
+
+<script type="text/javascript" src="__PUBLIC__/index/js/xgpass.js"></script>
+<script>
+	$('#Dregbut').click(function(){
+		var user =$('#reg-username').val(),
+				pass =$('#reg-pass').val(),
+				okpass=$('#reg-okpass').val();
+		if(RegeMatch()){
+			if(pass != "" && pass != null && okpass != "" && okpass != null){
+				if(pass==okpass){
+					$.ajax({
+						type:"POST",
+						url:"{:U('Home/User/pass_edit')}",
+						data:{"pass":user,"newpass":pass,"okpass":okpass},
+						dataType:'json',
+						beforeSend:function(){
+							$('.ajax_loading').show() //显示加载时候的提示
+						},
+						success:function(data){
+							if(data.code == 200){
+								layer.open({
+									content: data.msg
+									,skin: 'msg'
+									,time: 1 //2秒后自动关闭
+									,end:function(){
+										window.location.href='/index.php/Home/Index/index';
+									}
+								});
+							}else{
+								layer.open({
+									content: data.msg
+									,btn: '我知道了'
+								});
+							}
+							$('.ajax_loading').hide() //请求成功,隐藏加载提示
+						}
+					});
+				}else{
+					tishi(1,'两次密码不一致',1500);
+				}
+
+			}else{
+				tishi(1,'密码不能为空',1500);
+			}
+		}else{
+			tishi(1,'账号不能有特殊字符或者为空',1500);
+		};
+	});
+</script>
+</body>
+</html>

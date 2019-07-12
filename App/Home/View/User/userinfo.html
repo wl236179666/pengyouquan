@@ -26,20 +26,16 @@
         <if condition="$info['background'] eq null">
         <div class="pengyou-headimg" style="background-image:url(__PUBLIC__/index/img/bg.jpg);background-repeat:no-repeat;background-size:100% 86%;">
             <div class="pengyou-usergl-touxiang">
-                <div class="pengyou-touxiang-img">
-                    <img src="__PUBLIC__/index/img/pengyouquan.jpg">
+                <div class="pengyou-usergl-xgimg" align="center">
+                    <img src="__PUBLIC__/index/img/pengyouquan4.png">
                 </div>
             </div>
         </div>
         <else />
-        <div class="pengyou-headimg" style="background-image:url({$info['background']});background-repeat:no-repeat;background-size:100% 86%;">
+        <div class="pengyou-headimg" style="background-image:url(__PUBLIC__/index/img/bg/{$info['background']});background-repeat:no-repeat;background-size:100% 86%;">
             <div class="pengyou-usergl-touxiang">
-                <div class="pengyou-touxiang-img">
-                    <if condition="$info['avatar'] eq null">
-                        <img src="__PUBLIC__/index/img/pengyouquan.jpg">
-                        <else />
-                        <img src="{$info['avatar']}">
-                    </if>
+                <div class="pengyou-usergl-xgimg" align="center">
+                    <img src="__PUBLIC__/index/img/pengyouquan4.png">
                 </div>
             </div>
         </div>
@@ -209,7 +205,7 @@
             </div>
         </div>
 
-
+        <input type="hidden" id="user_id" value="{$user_id}">
     </div>
 
 </div>
@@ -256,6 +252,12 @@
             }, "json");
 
     }
+
+    $('.pengyou-usergl-xgimg').click(function(){
+        var user_id = $('#user_id').val();
+        window.location.href = "/index.php/Home/Index/index?uid="+user_id;
+    })
+
 </script>
 </body>
 </html>
